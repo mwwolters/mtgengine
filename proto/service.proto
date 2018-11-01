@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package service;
+
+service CollectionEngine {
+	// rpc LoadCollection(LoadCollectionRequest) returns (LoadCollectionReply) {}
+	rpc CreateCollection(CreateCollectionRequest) returns (CreateCollectionReply) {}
+	rpc AddCards(AddCardsRequest) returns (AddCardsReply) {}
+	rpc RemoveCards(RemoveCardsRequest) returns (RemoveCardsReply) {}
+	rpc ExportCollection(ExportCollectionRequest) returns (ExportCollectionReply) {}
+	rpc SearchCards(SearchCardsRequest) returns (SearchCardsReply) {}
+	rpc SearchCollection(SearchCollectionRequest) returns (SearchCollectionReply) {}
+	rpc GetPrice(GetPriceRequest) returns (GetPriceReply) {}
+	rpc GetStats(GetStatsRequest) returns (GetStatsReply) {}
+	rpc ImportCollection(ImportCollectionRequest) returns (ImportCollectionReply) {}
+}
+
+message LoadCollectionRequest {
+	string path = 1;
+}
+
+message LoadCollectionReply {
+}
+
+message AddCardsRequest {
+	string collection = 1;
+	repeated string cards = 2;
+	bool exact_match = 3;
+}
+
+message AddCardsReply {
+	repeated string unknown_cards = 1;
+}
+
+message RemoveCardsRequest {
+	string collection = 1;
+	repeated string cards = 2;
+}
+
+message RemoveCardsReply {
+	repeated string unknown_cards = 1;
+}
+
+message CreateCollectionRequest {
+	string name = 1;
+	repeated string cards = 2;
+}
+
+message CreateCollectionReply {
+}
+
+enum ExportType {
+	option allow_alias = true;
+	DEFAULT = 0;
+	CSV = 0;
+}
+message ExportCollectionRequest {
+	string name = 1;
+	string file_name = 2;
+	ExportType type = 3;
+}
+
+message ExportCollectionReply {
+}
+
+message ImportCollectionRequest {
+	string name = 1;
+	string file_name = 2;
+	ExportType type = 3;
+}
+
+message ImportCollectionReply {
+	int64 cards_added = 1;
+	repeated string unknown_cards = 2;
+}
+
+message Card {
+	string artist = 1;
+	int64 cmc = 2;
+        repeated string colors = 3;
+        string flavor = 4;
+        string id = 5;
+        string name = 6;
+        string power = 7;
+        string toughness = 8;
+        string rarity = 9;
+        string manaCost = 10;
+        repeated string subtypes = 11;
+        repeated string supertypes = 12;
+        string text = 13;
+        string cType = 14;
+        repeated string types = 15;
+}
+
+enum SearchField {
+	UNKNOWN = 0;
+	NAME = 1;
+	TEXT = 2;
+	CMC = 3;
+	POWER = 4;
+	TOUGHNESS = 5;
+	INNAME = 6;
+}
+
+message SearchCardsRequest {
+	SearchField field_to_search = 1;
+	string search_string = 2;
+}
+
+message SearchCardsReply {
+	repeated Card cards = 1;
+}
+
+message SearchCollectionRequest {
+	SearchField field_to_search = 1;
+	string search_string = 2;
+	string collection = 3;
+}
+
+message SearchCollectionReply {
+	repeated Card cards = 1;
+}
+
+
+message GetPriceRequest {
+	string name = 1;
+}
+
+message GetPriceReply {
+	string price = 1;
+}
+
+message GetStatsRequest {
+	string collection = 1;
+}
+
+message GetStatsReply {
+	string stats = 1;
+}
