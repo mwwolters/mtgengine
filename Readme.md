@@ -1,6 +1,6 @@
 # MTG Engine
 
-This is a learning project. It is probably pretty sloppy and probably won't go anywhere.
+This is a learning project. I make no guarantees that this will go anywhere. It also needs to be cleaned up.
 
 It is:
 * A GRPC service
